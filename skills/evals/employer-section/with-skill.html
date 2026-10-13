@@ -1,0 +1,140 @@
+<!doctype html>
+<!--
+  HireHouse employer section (standalone). Built from templates/starter.html; every value comes from tokens/tokens.css.
+  Route accent: employer (blue #4c49f3, white ink). Copy is from the approved companies lines (04 §2.1, §7.1).
+  Standalone file, so the section headline is the page's only h1. Inside a full page it becomes an h2.
+-->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For companies · HireHouse</title>
+<meta name="description" content="HireHouse handles sourcing, screening and the first interview for free. No licence, no setup fee, no commission. You make every hiring decision.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ground: #fbfbf9; --white: #fff; --black: #000;
+    --lime: #e9fea3; --indigo: #4f46e5; --blue: #4c49f3;
+    --text-lead: #4a4a4a; --text-secondary: #555;
+    --line: rgba(0,0,0,.08); --line-strong: rgba(0,0,0,.10);
+    --margin: clamp(20px, 5vw, 63px);
+    /* Employer route accent: blue with white ink */
+    --accent: var(--blue); --accent-ink: #fff;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: #000; font-family: Manrope, Inter, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 400; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  /* Focus: black ring with an accent halo (A11Y-01 fix), never the accent alone */
+  :focus-visible { outline: 2px solid #000; outline-offset: 3px; box-shadow: 0 0 0 6px var(--accent); }
+  a { color: inherit; }
+
+  /* Header: white/90, hairline, logo only (the section carries the one CTA) */
+  .hdr { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line-strong); }
+  .hdr-in { max-width: 1440px; margin: 0 auto; height: 64px; padding: 0 var(--margin); display: flex; align-items: center; }
+  .hdr a { display: inline-flex; align-items: center; min-height: 44px; }
+  .hdr img { height: 26px; display: block; }
+
+  /* Section rhythm */
+  .section { max-width: 1200px; margin: 0 auto; padding: 96px var(--margin); }
+  @media (min-width: 768px) { .section { padding: 128px var(--margin); } }
+  .head { max-width: 860px; margin: 0 auto; text-align: center; }
+  .eyebrow { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--indigo); }
+  h1 { margin: 12px 0 0; text-wrap: balance; font-size: clamp(30px, 4.4vw, 56px); font-weight: 600; line-height: 1.04; letter-spacing: -.045em; }
+  /* Marker: one phrase per headline. Lime, as the live /companies kit does (see Q-20). */
+  mark { background: linear-gradient(transparent 58%, var(--lime) 58%, var(--lime) 92%, transparent 92%); color: inherit; padding: 0 .06em; }
+  .sub { margin: 20px auto 0; max-width: 52ch; font-size: 17px; font-weight: 400; line-height: 1.625; color: var(--text-lead); }
+
+  /* What you get: hairline card grid, flat */
+  .grid { margin-top: 56px; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .card { background: #fff; padding: 24px; text-align: left; }
+  @media (min-width: 768px) { .card { padding: 32px; } }
+  .chip { display: inline-block; border-radius: 999px; background: var(--lime); padding: 4px 10px; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  h2 { margin: 16px 0 0; font-size: 22px; font-weight: 600; line-height: 1.25; letter-spacing: -.025em; }
+  .card p { margin: 10px 0 0; max-width: 60ch; font-size: 15.5px; font-weight: 400; line-height: 1.625; color: var(--text-secondary); }
+
+  /* What it costs: the page's one blue element, flat, white ink */
+  .cost { margin-top: 20px; border-radius: 28px; background: var(--blue); color: #fff; padding: 28px; display: grid; gap: 28px; }
+  @media (min-width: 768px) { .cost { padding: 48px 40px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; } }
+  .cost .label { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #fff; }
+  .cost .figure { margin: 12px 0 0; font-size: clamp(24px, 2.8vw, 34px); font-weight: 600; line-height: 1.25; letter-spacing: -.035em; }
+  .cost .note { margin: 12px 0 0; max-width: 52ch; font-size: 15.5px; font-weight: 400; line-height: 1.625; color: #fff; }
+  .ticks { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+  .ticks li { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500; }
+  .ticks li::before { content: "✓"; flex: none; display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #fff; color: var(--blue); font-size: 13px; font-weight: 700; }
+
+  .fair { margin: 28px auto 0; max-width: 60ch; text-align: center; font-size: 15.5px; font-weight: 400; line-height: 1.625; color: var(--text-secondary); }
+
+  /* The one CTA: black pill, 48px, verb-first, arrow */
+  .cta-row { margin-top: 32px; display: flex; justify-content: center; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 24px; border-radius: 999px; font: 600 15px/1 Manrope, sans-serif; text-decoration: none; transition: transform .2s var(--ease); }
+  .pill-black { background: #000; color: #fff; }
+  .pill-black:hover { transform: translateY(-2px); }
+  .pill .arrow { transition: transform .2s var(--ease); }
+  .pill:hover .arrow { transform: translateX(2px); }
+
+  /* Motion: rise once; reduced motion shows the end state */
+  .rise { animation: rise .9s var(--ease) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .rise { animation: none; } .pill, .pill .arrow { transition: none; } .pill-black:hover, .pill:hover .arrow { transform: none; } }
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="/" aria-label="HireHouse home"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIzMS43IDIyIDYxNi43IDExMC4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGZpbGw9IiMxRjI0MzAiIGQ9Ik0zNS43MjIyMjIyMjIyMjIyMiAxMjYuMFYyNi4wSDQxLjU1NTU1NTU1NTU1NTU2VjczLjA4MzMzMzMzMzMzMzMzSDEwMi4xMTExMTExMTExMTExMVYyNi4wSDEwNy45NDQ0NDQ0NDQ0NDQ0NFYxMjYuMEgxMDIuMTExMTExMTExMTExMTFWNzguOTE2NjY2NjY2NjY2NjZINDEuNTU1NTU1NTU1NTU1NTZWMTI2LjBaIE0xNTYuNTU1NTU1NTU1NTU1NTcgMTI2LjBWNTEuMEgxNjEuOTcyMjIyMjIyMjIyMjNWNjguOTE2NjY2NjY2NjY2NjZMMTYwLjE2NjY2NjY2NjY2NjY5IDY2LjU1NTU1NTU1NTU1NTU0UTE2MS4zNDcyMjIyMjIyMjIyMyA2My41IDE2My4xNTI3Nzc3Nzc3Nzc3NyA2MC44NjExMTExMTExMTExMVExNjQuOTU4MzMzMzMzMzMzMzQgNTguMjIyMjIyMjIyMjIyMjE0IDE2Ni42OTQ0NDQ0NDQ0NDQ0NiA1Ni41NTU1NTU1NTU1NTU1NlExNjkuNzUgNTMuNTY5NDQ0NDQ0NDQ0NDQgMTczLjk1MTM4ODg4ODg4ODkgNTIuMDA2OTQ0NDQ0NDQ0NDRRMTc4LjE1Mjc3Nzc3Nzc3NzggNTAuNDQ0NDQ0NDQ0NDQ0NDQgMTgyLjM4ODg4ODg4ODg4ODkgNTAuMjAxMzg4ODg4ODg4ODg2UTE4Ni42MjUgNDkuOTU4MzMzMzMzMzMzMzMgMTg5Ljg4ODg4ODg4ODg4ODkgNTEuMFY1Ni41NTU1NTU1NTU1NTU1NlExODUuMjM2MTExMTExMTExMTEgNTUuNTEzODg4ODg4ODg4ODg2IDE4MC4wMjc3Nzc3Nzc3Nzc3NyA1Ni4xNzM2MTExMTExMTExMVExNzQuODE5NDQ0NDQ0NDQ0NDYgNTYuODMzMzMzMzMzMzMzMzMgMTcwLjMwNTU1NTU1NTU1NTU3IDYxLjBRMTY2LjM0NzIyMjIyMjIyMjIzIDY0LjY4MDU1NTU1NTU1NTU0IDE2NC43MTUyNzc3Nzc3Nzc3NyA2OS40NzIyMjIyMjIyMjIyMVExNjMuMDgzMzMzMzMzMzMzMzQgNzQuMjYzODg4ODg4ODg4ODkgMTYyLjczNjExMTExMTExMTE0IDc5LjM2ODA1NTU1NTU1NTU2UTE2Mi4zODg4ODg4ODg4ODg5IDg0LjQ3MjIyMjIyMjIyMjIzIDE2Mi4zODg4ODg4ODg4ODg5IDg5LjA1NTU1NTU1NTU1NTU2VjEyNi4wWiBNMjI5LjA1NTU1NTU1NTU1NTU3IDEyOC4wODMzMzMzMzMzMzMzNFEyMTguNDMwNTU1NTU1NTU1NTcgMTI4LjA4MzMzMzMzMzMzMzM0IDIxMC43NTY5NDQ0NDQ0NDQ0NiAxMjMuMjkxNjY2NjY2NjY2NjdRMjAzLjA4MzMzMzMzMzMzMzM0IDExOC41IDE5OC45MTY2NjY2NjY2NjY2OSAxMDkuNjExMTExMTExMTExMTFRMTk0Ljc1IDEwMC43MjIyMjIyMjIyMjIyMyAxOTQuNzUgODguNVExOTQuNzUgNzYuMjA4MzMzMzMzMzMzMzMgMTk4Ljg4MTk0NDQ0NDQ0NDQ2IDY3LjMxOTQ0NDQ0NDQ0NDQ0UTIwMy4wMTM4ODg4ODg4ODg5IDU4LjQzMDU1NTU1NTU1NTU2IDIxMC42ODc1IDUzLjY3MzYxMTExMTExMTExUTIxOC4zNjExMTExMTExMTExMSA0OC45MTY2NjY2NjY2NjY2NiAyMjkuMDU1NTU1NTU1NTU1NTcgNDguOTE2NjY2NjY2NjY2NjZRMjM5LjgxOTQ0NDQ0NDQ0NDQ2IDQ4LjkxNjY2NjY2NjY2NjY2IDI0Ny40NTgzMzMzMzMzMzMzNCA1My43Nzc3Nzc3Nzc3Nzc3N1EyNTUuMDk3MjIyMjIyMjIyMjMgNTguNjM4ODg4ODg4ODg4ODg2IDI1OS4xNTk3MjIyMjIyMjIyMyA2Ny44NzVRMjYzLjIyMjIyMjIyMjIyMjIzIDc3LjExMTExMTExMTExMTExIDI2My4yMjIyMjIyMjIyMjIyMyA5MC4xNjY2NjY2NjY2NjY2NkgyNTYuOTcyMjIyMjIyMjIyMjNWODguMjIyMjIyMjIyMjIyMjNRMjU2LjU1NTU1NTU1NTU1NTU0IDcyLjA0MTY2NjY2NjY2NjY2IDI0OS4zNjgwNTU1NTU1NTU1NCA2My4zOTU4MzMzMzMzMzMzM1EyNDIuMTgwNTU1NTU1NTU1NTcgNTQuNzUgMjI5LjA1NTU1NTU1NTU1NTU3IDU0Ljc1UTIxNS43MjIyMjIyMjIyMjIyMyA1NC43NSAyMDguMzYxMTExMTExMTExMTEgNjMuNjA0MTY2NjY2NjY2NjY0UTIwMS4wIDcyLjQ1ODMzMzMzMzMzMzMzIDIwMS4wIDg4LjVRMjAxLjAgMTA0LjU0MTY2NjY2NjY2NjY2IDIwOC4zNjExMTExMTExMTExMSAxMTMuMzk1ODMzMzMzMzMzMzNRMjE1LjcyMjIyMjIyMjIyMjIzIDEyMi4yNSAyMjkuMDU1NTU1NTU1NTU1NTcgMTIyLjI1UTIzOC4zNjExMTExMTExMTExNCAxMjIuMjUgMjQ1LjM3NTAwMDAwMDAwMDAzIDExNy44NzVRMjUyLjM4ODg4ODg4ODg4ODkgMTEzLjUgMjU2LjU1NTU1NTU1NTU1NTU0IDEwNS4zMDU1NTU1NTU1NTU1NkwyNjEuNDE2NjY2NjY2NjY2NyAxMDguMDgzMzMzMzMzMzMzMzNRMjU2LjgzMzMzMzMzMzMzMzM3IDExNy42NjY2NjY2NjY2NjY2NyAyNDguNDMwNTU1NTU1NTU1NiAxMjIuODc1UTI0MC4wMjc3Nzc3Nzc3Nzc4IDEyOC4wODMzMzMzMzMzMzMzNCAyMjkuMDU1NTU1NTU1NTU1NTcgMTI4LjA4MzMzMzMzMzMzMzM0Wk0xOTguNSA5MC4xNjY2NjY2NjY2NjY2NlY4NC4zMzMzMzMzMzMzMzMzM0gyNTkuNjExMTExMTExMTExMTRWOTAuMTY2NjY2NjY2NjY2NjZaIi8+PHBhdGggZmlsbD0iIzRDNDlGMyIgZD0iTTI3NC4zMzMzMzMzMzMzMzMzNyAxMjYuMFYyNi4wSDI4MC4xNjY2NjY2NjY2NjY3VjczLjA4MzMzMzMzMzMzMzMzSDM0MC43MjIyMjIyMjIyMjIzVjI2LjBIMzQ2LjU1NTU1NTU1NTU1NTZWMTI2LjBIMzQwLjcyMjIyMjIyMjIyMjNWNzguOTE2NjY2NjY2NjY2NjZIMjgwLjE2NjY2NjY2NjY2NjdWMTI2LjBaIE0zOTEuOTcyMjIyMjIyMjIyMyAxMjguMDgzMzMzMzMzMzMzMzRRMzgwLjg2MTExMTExMTExMTE0IDEyOC4wODMzMzMzMzMzMzMzNCAzNzMuMjIyMjIyMjIyMjIyMyAxMjMuMDEzODg4ODg4ODg4ODlRMzY1LjU4MzMzMzMzMzMzMzM3IDExNy45NDQ0NDQ0NDQ0NDQ0NCAzNjEuNjI1IDEwOC45ODYxMTExMTExMTExMVEzNTcuNjY2NjY2NjY2NjY2NyAxMDAuMDI3Nzc3Nzc3Nzc3NzcgMzU3LjY2NjY2NjY2NjY2NjcgODguMzYxMTExMTExMTExMTFRMzU3LjY2NjY2NjY2NjY2NjcgNzYuNTU1NTU1NTU1NTU1NTQgMzYxLjY5NDQ0NDQ0NDQ0NDQ2IDY3LjY2NjY2NjY2NjY2NjY2UTM2NS43MjIyMjIyMjIyMjIyMyA1OC43Nzc3Nzc3Nzc3Nzc3NyAzNzMuMzk1ODMzMzMzMzMzMzcgNTMuODQ3MjIyMjIyMjIyMjE0UTM4MS4wNjk0NDQ0NDQ0NDQ0NiA0OC45MTY2NjY2NjY2NjY2NiAzOTEuOTcyMjIyMjIyMjIyMyA0OC45MTY2NjY2NjY2NjY2NlE0MDMuMTUyNzc3Nzc3Nzc3OCA0OC45MTY2NjY2NjY2NjY2NiA0MTAuNzkxNjY2NjY2NjY2NzQgNTMuOTUxMzg4ODg4ODg4ODg2UTQxOC40MzA1NTU1NTU1NTU2IDU4Ljk4NjExMTExMTExMTExNCA0MjIuMzU0MTY2NjY2NjY2NzQgNjcuODc1UTQyNi4yNzc3Nzc3Nzc3Nzc4IDc2Ljc2Mzg4ODg4ODg4ODg5IDQyNi4yNzc3Nzc3Nzc3Nzc4IDg4LjM2MTExMTExMTExMTExUTQyNi4yNzc3Nzc3Nzc3Nzc4IDEwMC4yMzYxMTExMTExMTExMSA0MjIuMzE5NDQ0NDQ0NDQ0NDYgMTA5LjE1OTcyMjIyMjIyMjIzUTQxOC4zNjExMTExMTExMTExNCAxMTguMDgzMzMzMzMzMzMzMzMgNDEwLjY4NzUgMTIzLjA4MzMzMzMzMzMzMzM0UTQwMy4wMTM4ODg4ODg4ODg5IDEyOC4wODMzMzMzMzMzMzMzNCAzOTEuOTcyMjIyMjIyMjIyMyAxMjguMDgzMzMzMzMzMzMzMzRaTTM5MS45NzIyMjIyMjIyMjIzIDEyMi4yNVE0MDYuMTM4ODg4ODg4ODg4OSAxMjIuMjUgNDEzLjA4MzMzMzMzMzMzMzM3IDExMi44NDAyNzc3Nzc3Nzc3N1E0MjAuMDI3Nzc3Nzc3Nzc3OCAxMDMuNDMwNTU1NTU1NTU1NTYgNDIwLjAyNzc3Nzc3Nzc3NzggODguMzYxMTExMTExMTExMTFRNDIwLjAyNzc3Nzc3Nzc3NzggNzMuMDEzODg4ODg4ODg4ODkgNDEzLjA0ODYxMTExMTExMTE0IDYzLjg4MTk0NDQ0NDQ0NDQ0UTQwNi4wNjk0NDQ0NDQ0NDQ0NiA1NC43NSAzOTEuOTcyMjIyMjIyMjIyMyA1NC43NVEzODIuNDU4MzMzMzMzMzMzMzcgNTQuNzUgMzc2LjI0MzA1NTU1NTU1NTYgNTkuMDU1NTU1NTU1NTU1NTZRMzcwLjAyNzc3Nzc3Nzc3NzggNjMuMzYxMTExMTExMTExMTEgMzY2Ljk3MjIyMjIyMjIyMjMgNzAuOTMwNTU1NTU1NTU1NTZRMzYzLjkxNjY2NjY2NjY2NjcgNzguNSAzNjMuOTE2NjY2NjY2NjY2NyA4OC4zNjExMTExMTExMTExMVEzNjMuOTE2NjY2NjY2NjY2NyAxMDMuNjM4ODg4ODg4ODg4ODkgMzcxLjAzNDcyMjIyMjIyMjMgMTEyLjk0NDQ0NDQ0NDQ0NDQ0UTM3OC4xNTI3Nzc3Nzc3Nzc4IDEyMi4yNSAzOTEuOTcyMjIyMjIyMjIyMyAxMjIuMjVaIE00NjYuNDE2NjY2NjY2NjY2NyAxMjcuNjY2NjY2NjY2NjY2NjdRNDYwLjcyMjIyMjIyMjIyMjIzIDEyNy42NjY2NjY2NjY2NjY2NyA0NTUuOTY1Mjc3Nzc3Nzc3OCAxMjYuMDY5NDQ0NDQ0NDQ0NDZRNDUxLjIwODMzMzMzMzMzMzM3IDEyNC40NzIyMjIyMjIyMjIyMyA0NDcuNDkzMDU1NTU1NTU1NTQgMTIxLjQ1MTM4ODg4ODg4ODg5UTQ0My43Nzc3Nzc3Nzc3Nzc3NyAxMTguNDMwNTU1NTU1NTU1NTYgNDQxLjIwODMzMzMzMzMzMzM3IDExNC4wNTU1NTU1NTU1NTU1NlE0MzguNjM4ODg4ODg4ODg4OSAxMDkuNjgwNTU1NTU1NTU1NTYgNDM3LjMxOTQ0NDQ0NDQ0NDQ2IDEwNC4wOTAyNzc3Nzc3Nzc3N1E0MzYuMCA5OC41IDQzNi4wIDkxLjgzMzMzMzMzMzMzMzMzVjUxLjBINDQxLjgzMzMzMzMzMzMzMzM3VjkwLjcyMjIyMjIyMjIyMjIzUTQ0MS44MzMzMzMzMzMzMzMzNyA5OC43MDgzMzMzMzMzMzMzMyA0NDMuNDY1Mjc3Nzc3Nzc3OCAxMDQuNjExMTExMTExMTExMTFRNDQ1LjA5NzIyMjIyMjIyMjIzIDExMC41MTM4ODg4ODg4ODg4OSA0NDguMjkxNjY2NjY2NjY2NyAxMTQuMzY4MDU1NTU1NTU1NTZRNDUxLjQ4NjExMTExMTExMTE0IDExOC4yMjIyMjIyMjIyMjIyMyA0NTYuMDM0NzIyMjIyMjIyMyAxMjAuMDk3MjIyMjIyMjIyMjNRNDYwLjU4MzMzMzMzMzMzMzM3IDEyMS45NzIyMjIyMjIyMjIyMyA0NjYuNDE2NjY2NjY2NjY2NyAxMjEuOTcyMjIyMjIyMjIyMjNRNDczLjI5MTY2NjY2NjY2NjcgMTIxLjk3MjIyMjIyMjIyMjIzIDQ3OC4xMTgwNTU1NTU1NTU1NCAxMTkuNTc2Mzg4ODg4ODg4ODlRNDgyLjk0NDQ0NDQ0NDQ0NDQ2IDExNy4xODA1NTU1NTU1NTU1NiA0ODUuOTMwNTU1NTU1NTU1NTQgMTEzLjAxMzg4ODg4ODg4ODg5UTQ4OC45MTY2NjY2NjY2NjY3IDEwOC44NDcyMjIyMjIyMjIyMyA0OTAuMzA1NTU1NTU1NTU1NTQgMTAzLjQzMDU1NTU1NTU1NTU2UTQ5MS42OTQ0NDQ0NDQ0NDQ0NiA5OC4wMTM4ODg4ODg4ODg4OSA0OTEuNjk0NDQ0NDQ0NDQ0NDYgOTEuOTcyMjIyMjIyMjIyMjNMNDk3LjExMTExMTExMTExMTE0IDkxLjgzMzMzMzMzMzMzMzMzUTQ5Ny4xMTExMTExMTExMTExNCAxMDQuNjgwNTU1NTU1NTU1NTYgNDkyLjg3NSAxMTIuNTYyNVE0ODguNjM4ODg4ODg4ODg4OSAxMjAuNDQ0NDQ0NDQ0NDQ0NDQgNDgxLjY1OTcyMjIyMjIyMjMgMTI0LjA1NTU1NTU1NTU1NTU2UTQ3NC42ODA1NTU1NTU1NTU2IDEyNy42NjY2NjY2NjY2NjY2NyA0NjYuNDE2NjY2NjY2NjY2NyAxMjcuNjY2NjY2NjY2NjY2NjdaTTQ5Mi4xMTExMTExMTExMTExNCAxMjYuMFYxMTAuNzIyMjIyMjIyMjIyMjNINDkxLjY5NDQ0NDQ0NDQ0NDQ2VjUxLjBINDk3LjUyNzc3Nzc3Nzc3NzhWMTI2LjBaIE01NDAuMTY2NjY2NjY2NjY2NyAxMjcuOTQ0NDQ0NDQ0NDQ0NDRRNTI3LjQ1ODMzMzMzMzMzMzQgMTI3Ljk0NDQ0NDQ0NDQ0NDQ0IDUxOS4wNTU1NTU1NTU1NTU3IDEyMi42MzE5NDQ0NDQ0NDQ0NFE1MTAuNjUyNzc3Nzc3Nzc3OCAxMTcuMzE5NDQ0NDQ0NDQ0NDQgNTA4LjYzODg4ODg4ODg4ODkgMTA3Ljk0NDQ0NDQ0NDQ0NDQ0TDUxNC42MTExMTExMTExMTEyIDEwNi44MzMzMzMzMzMzMzMzM1E1MTYuNDg2MTExMTExMTExMiAxMTMuNzc3Nzc3Nzc3Nzc3NzcgNTIzLjM5NTgzMzMzMzMzMzQgMTE3Ljk0NDQ0NDQ0NDQ0NDQ0UTUzMC4zMDU1NTU1NTU1NTU1IDEyMi4xMTExMTExMTExMTExMSA1NDAuMzA1NTU1NTU1NTU1NSAxMjIuMTExMTExMTExMTExMTFRNTUwLjUxMzg4ODg4ODg4ODkgMTIyLjExMTExMTExMTExMTExIDU1Ni41MjA4MzMzMzMzMzM0IDExNy43MzYxMTExMTExMTExMVE1NjIuNTI3Nzc3Nzc3Nzc3OCAxMTMuMzYxMTExMTExMTExMTEgNTYyLjUyNzc3Nzc3Nzc3NzggMTA1Ljg2MTExMTExMTExMTExUTU2Mi41Mjc3Nzc3Nzc3Nzc4IDEwMS43NjM4ODg4ODg4ODg4OSA1NjAuNzIyMjIyMjIyMjIyMyA5OS4xNTk3MjIyMjIyMjIyM1E1NTguOTE2NjY2NjY2NjY2NyA5Ni41NTU1NTU1NTU1NTU1NiA1NTMuNjczNjExMTExMTExMSA5NC40MDI3Nzc3Nzc3Nzc3N1E1NDguNDMwNTU1NTU1NTU1NSA5Mi4yNSA1MzguMjIyMjIyMjIyMjIyMyA4OS40NzIyMjIyMjIyMjIyM1E1MjcuNTI3Nzc3Nzc3Nzc3OCA4Ni41NTU1NTU1NTU1NTU1NiA1MjEuNTkwMjc3Nzc3Nzc3OCA4My44MTI1UTUxNS42NTI3Nzc3Nzc3Nzc4IDgxLjA2OTQ0NDQ0NDQ0NDQ0IDUxMy4yNTY5NDQ0NDQ0NDQ1IDc3LjYzMTk0NDQ0NDQ0NDQ0UTUxMC44NjExMTExMTExMTExNCA3NC4xOTQ0NDQ0NDQ0NDQ0NCA1MTAuODYxMTExMTExMTExMTQgNjkuMTk0NDQ0NDQ0NDQ0NDRRNTEwLjg2MTExMTExMTExMTE0IDYzLjIyMjIyMjIyMjIyMjIyIDUxNC40MDI3Nzc3Nzc3Nzc4IDU4LjYzODg4ODg4ODg4ODg4NlE1MTcuOTQ0NDQ0NDQ0NDQ0NSA1NC4wNTU1NTU1NTU1NTU1NiA1MjQuMTk0NDQ0NDQ0NDQ0NSA1MS40ODYxMTExMTExMTExMVE1MzAuNDQ0NDQ0NDQ0NDQ0NSA0OC45MTY2NjY2NjY2NjY2NiA1MzguNjM4ODg4ODg4ODg4OSA0OC45MTY2NjY2NjY2NjY2NlE1NDYuOTAyNzc3Nzc3Nzc3OCA0OC45MTY2NjY2NjY2NjY2NiA1NTMuNTM0NzIyMjIyMjIyMyA1MS42NTk3MjIyMjIyMjIyMTRRNTYwLjE2NjY2NjY2NjY2NjcgNTQuNDAyNzc3Nzc3Nzc3NzcgNTY0LjIyOTE2NjY2NjY2NjcgNTkuMjk4NjExMTExMTExMTFRNTY4LjI5MTY2NjY2NjY2NjcgNjQuMTk0NDQ0NDQ0NDQ0NDQgNTY4LjkxNjY2NjY2NjY2NjcgNzAuNTgzMzMzMzMzMzMzMzNMNTYyLjk0NDQ0NDQ0NDQ0NDUgNzEuNjk0NDQ0NDQ0NDQ0NDRRNTYxLjYyNSA2My44NDcyMjIyMjIyMjIyMiA1NTQuOTIzNjExMTExMTExMSA1OS4yOTg2MTExMTExMTExMTRRNTQ4LjIyMjIyMjIyMjIyMjMgNTQuNzUgNTM4LjIyMjIyMjIyMjIyMjMgNTQuNzVRNTI4Ljg0NzIyMjIyMjIyMjMgNTQuNjExMTExMTExMTExMTE0IDUyMi45MDk3MjIyMjIyMjIzIDU4LjU2OTQ0NDQ0NDQ0NDQ0UTUxNi45NzIyMjIyMjIyMjIzIDYyLjUyNzc3Nzc3Nzc3Nzc3IDUxNi45NzIyMjIyMjIyMjIzIDY4LjkxNjY2NjY2NjY2NjY2UTUxNi45NzIyMjIyMjIyMjIzIDcyLjQ1ODMzMzMzMzMzMzMzIDUxOC45ODYxMTExMTExMTExIDc0Ljk5MzA1NTU1NTU1NTU0UTUyMS4wIDc3LjUyNzc3Nzc3Nzc3Nzc3IDUyNi4wIDc5LjYxMTExMTExMTExMTExUTUzMS4wIDgxLjY5NDQ0NDQ0NDQ0NDQ0IDUzOS44ODg4ODg4ODg4ODg5IDgzLjkxNjY2NjY2NjY2NjY2UTU1MS4xMzg4ODg4ODg4ODg5IDg2Ljc2Mzg4ODg4ODg4ODg5IDU1Ny40MjM2MTExMTExMTExIDg5LjY4MDU1NTU1NTU1NTU2UTU2My43MDgzMzMzMzMzMzM0IDkyLjU5NzIyMjIyMjIyMjIzIDU2Ni4yNDMwNTU1NTU1NTU3IDk2LjQ4NjExMTExMTExMTExUTU2OC43Nzc3Nzc3Nzc3Nzc4IDEwMC4zNzUgNTY4Ljc3Nzc3Nzc3Nzc3NzggMTA2LjEzODg4ODg4ODg4ODg5UTU2OC43Nzc3Nzc3Nzc3Nzc4IDExNi4zNDcyMjIyMjIyMjIyMyA1NjEuMTM4ODg4ODg4ODg4OSAxMjIuMTQ1ODMzMzMzMzMzMzRRNTUzLjUgMTI3Ljk0NDQ0NDQ0NDQ0NDQ0IDU0MC4xNjY2NjY2NjY2NjY3IDEyNy45NDQ0NDQ0NDQ0NDQ0NFogTTYxMC4xNjY2NjY2NjY2NjY2IDEyOC4wODMzMzMzMzMzMzMzNFE1OTkuNTQxNjY2NjY2NjY2NiAxMjguMDgzMzMzMzMzMzMzMzQgNTkxLjg2ODA1NTU1NTU1NTUgMTIzLjI5MTY2NjY2NjY2NjY3UTU4NC4xOTQ0NDQ0NDQ0NDQ1IDExOC41IDU4MC4wMjc3Nzc3Nzc3Nzc4IDEwOS42MTExMTExMTExMTExMVE1NzUuODYxMTExMTExMTExMSAxMDAuNzIyMjIyMjIyMjIyMjMgNTc1Ljg2MTExMTExMTExMTEgODguNVE1NzUuODYxMTExMTExMTExMSA3Ni4yMDgzMzMzMzMzMzMzMyA1NzkuOTkzMDU1NTU1NTU1NSA2Ny4zMTk0NDQ0NDQ0NDQ0NFE1ODQuMTI1IDU4LjQzMDU1NTU1NTU1NTU2IDU5MS43OTg2MTExMTExMTExIDUzLjY3MzYxMTExMTExMTExUTU5OS40NzIyMjIyMjIyMjIyIDQ4LjkxNjY2NjY2NjY2NjY2IDYxMC4xNjY2NjY2NjY2NjY2IDQ4LjkxNjY2NjY2NjY2NjY2UTYyMC45MzA1NTU1NTU1NTU1IDQ4LjkxNjY2NjY2NjY2NjY2IDYyOC41Njk0NDQ0NDQ0NDQ1IDUzLjc3Nzc3Nzc3Nzc3Nzc3UTYzNi4yMDgzMzMzMzMzMzM0IDU4LjYzODg4ODg4ODg4ODg4NiA2NDAuMjcwODMzMzMzMzMzNCA2Ny44NzVRNjQ0LjMzMzMzMzMzMzMzMzQgNzcuMTExMTExMTExMTExMTEgNjQ0LjMzMzMzMzMzMzMzMzQgOTAuMTY2NjY2NjY2NjY2NjZINjM4LjA4MzMzMzMzMzMzMzRWODguMjIyMjIyMjIyMjIyMjNRNjM3LjY2NjY2NjY2NjY2NjYgNzIuMDQxNjY2NjY2NjY2NjYgNjMwLjQ3OTE2NjY2NjY2NjYgNjMuMzk1ODMzMzMzMzMzMzNRNjIzLjI5MTY2NjY2NjY2NjYgNTQuNzUgNjEwLjE2NjY2NjY2NjY2NjYgNTQuNzVRNTk2LjgzMzMzMzMzMzMzMzQgNTQuNzUgNTg5LjQ3MjIyMjIyMjIyMjIgNjMuNjA0MTY2NjY2NjY2NjY0UTU4Mi4xMTExMTExMTExMTExIDcyLjQ1ODMzMzMzMzMzMzMzIDU4Mi4xMTExMTExMTExMTExIDg4LjVRNTgyLjExMTExMTExMTExMTEgMTA0LjU0MTY2NjY2NjY2NjY2IDU4OS40NzIyMjIyMjIyMjIyIDExMy4zOTU4MzMzMzMzMzMzM1E1OTYuODMzMzMzMzMzMzMzNCAxMjIuMjUgNjEwLjE2NjY2NjY2NjY2NjYgMTIyLjI1UTYxOS40NzIyMjIyMjIyMjIyIDEyMi4yNSA2MjYuNDg2MTExMTExMTExMSAxMTcuODc1UTYzMy41IDExMy41IDYzNy42NjY2NjY2NjY2NjY2IDEwNS4zMDU1NTU1NTU1NTU1Nkw2NDIuNTI3Nzc3Nzc3Nzc3OCAxMDguMDgzMzMzMzMzMzMzMzNRNjM3Ljk0NDQ0NDQ0NDQ0NDUgMTE3LjY2NjY2NjY2NjY2NjY3IDYyOS41NDE2NjY2NjY2NjY3IDEyMi44NzVRNjIxLjEzODg4ODg4ODg4ODkgMTI4LjA4MzMzMzMzMzMzMzM0IDYxMC4xNjY2NjY2NjY2NjY2IDEyOC4wODMzMzMzMzMzMzMzNFpNNTc5LjYxMTExMTExMTExMTEgOTAuMTY2NjY2NjY2NjY2NjZWODQuMzMzMzMzMzMzMzMzMzNINjQwLjcyMjIyMjIyMjIyMjJWOTAuMTY2NjY2NjY2NjY2NjZaIE0xMjIuNjIsNTEuMDAgTDE0MS44OCw1MS4wMCBMMTM5LjY2LDYwLjY0IEwxMjQuODQsNjAuNjQgWiBNMTI1LjczLDYzLjUwIEwxMzguNzcsNjMuNTAgTDE0My4zNiwxMTAuOTAgTDEzMi4yNSwxMjYuMDAgTDEyMS4xNCwxMTAuOTAgWiIvPjwvc3ZnPgo=" alt="HireHouse"></a>
+  </div>
+</header>
+
+<main data-accent="employer">
+  <section class="section" aria-labelledby="employer-title">
+    <div class="head">
+      <p class="eyebrow rise">For companies</p>
+      <h1 id="employer-title" class="rise" style="animation-delay:.08s">The top of your funnel, <mark>handled</mark>. Free.</h1>
+      <p class="sub rise" style="animation-delay:.16s">We do the sourcing, screening and first interview. You make the decision.</p>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <span class="chip">01</span>
+        <h2>The first rounds, done.</h2>
+        <p>We find applicants, screen every application against what the role needs and run the first interview. You only show up for the last step.</p>
+      </article>
+      <article class="card">
+        <span class="chip">02</span>
+        <h2>A shortlist, not a pile.</h2>
+        <p>You get a ranked shortlist, ordered by an ELO-style merit score. Every applicant is scored on the same criteria.</p>
+      </article>
+      <article class="card">
+        <span class="chip">03</span>
+        <h2>The final call is yours.</h2>
+        <p>You make every hiring decision. Every applicant hears back, so your company is never the one that didn't reply.</p>
+      </article>
+    </div>
+
+    <div class="cost" aria-labelledby="cost-title">
+      <div>
+        <p class="label">What it costs</p>
+        <p class="figure" id="cost-title">Free to post a role.</p>
+        <p class="note">Optional candidate speed and partner revenue fund the platform, not a fee on you.</p>
+      </div>
+      <ul class="ticks">
+        <li>No licence</li>
+        <li>No setup fee</li>
+        <li>No per-seat pricing</li>
+        <li>No commission on the hire</li>
+      </ul>
+    </div>
+
+    <p class="fair">Applying is free for every candidate, always. Candidates can choose Fast Track to hear back sooner, but it never changes their score.</p>
+
+    <div class="cta-row">
+      <a class="pill pill-black" href="/signup">Post a role, free <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

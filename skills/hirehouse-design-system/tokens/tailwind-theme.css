@@ -1,0 +1,218 @@
+/* ============================================================================
+   HireHouse: Tailwind v4 theme
+   Reproduces the app's @theme inline block (src/app/globals.css:175-274) so a
+   second project gets IDENTICAL utility class names: bg-canvas, text-ink,
+   bg-lime, bg-grey-bg, text-muted-light, rounded-card, rounded-pill, p-lg,
+   shadow-pop, font-display, md:, etc.
+
+   Usage (in the project's main stylesheet):
+     @import "tailwindcss";
+     @import "./tokens.css";          // the values (light only)
+     @import "./tailwind-theme.css";  // this file: the utility mapping
+
+   Import tokens.css WITHOUT layer(): several mappings share their source
+   variable's name (e.g. --radius-lg: var(--radius-lg)); Tailwind emits those
+   self-references in @layer theme, and the unlayered tokens.css values win.
+   This is exactly how the app's globals.css behaves. Verified by compiling
+   with tailwindcss v4.3.3.
+
+   A second @theme block below adds the LANDING (canonical) names introduced
+   by this handover (bg-ground, text-indigo, rounded-panel, shadow-float ...).
+
+   `inline` makes utilities read the CSS variable at the use site, so scoped
+   overrides (e.g. [--primary:var(--ink)] on a wrapper) re-theme utilities.
+
+   Side effects to know about (same as the app):
+     - --color-teal-50..900 REPLACE Tailwind's default teal ramp with the
+       blue-to-black ramp. teal-950 stays Tailwind's default.
+     - --color-blue adds `bg-blue` (= #4c49f3); Tailwind's blue-50..950 remain.
+     - The t-shirt spacing names (xxs..xxl, section) also feed width utilities:
+       `max-w-lg` resolves to 24px, NOT a container width. Never use t-shirt
+       names with max-w- / min-w- / w- / h- / size- / basis-; use arbitrary
+       values, e.g. max-w-[36rem] or max-w-[var(--container-max)].
+       (globals.css:276-280)
+     - Tailwind's numeric spacing (p-4, gap-6) and default 2xl breakpoint are
+       untouched and still available.
+   ========================================================================== */
+
+@theme inline {
+  /* Primary */
+  --color-primary: var(--primary);
+  --color-primary-active: var(--primary-active);
+  --color-primary-disabled: var(--primary-disabled);
+  --color-on-primary: var(--on-primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-fg: var(--primary-soft-fg);
+
+  /* Blue-to-black depth ramp (legacy "teal" names) */
+  --color-teal-50: var(--teal-50);
+  --color-teal-100: var(--teal-100);
+  --color-teal-200: var(--teal-200);
+  --color-teal-300: var(--teal-300);
+  --color-teal-400: var(--teal-400);
+  --color-teal-500: var(--teal-500);
+  --color-teal-600: var(--teal-600);
+  --color-teal-700: var(--teal-700);
+  --color-teal-800: var(--teal-800);
+  --color-teal-900: var(--teal-900);
+
+  /* Product accent family */
+  --color-teal: var(--teal);
+  --color-amber: var(--amber);
+  --color-fern: var(--fern);
+  --color-rust: var(--rust);
+  --color-slate: var(--slate);
+  --color-plum: var(--plum);
+  --color-on-accent: var(--on-accent);
+  --color-on-accent-soft: var(--on-accent-soft);
+
+  /* Editorial Brutalist accent surfaces: bg-lime / bg-lilac / bg-yellow / bg-blue */
+  --color-lime: var(--lime);
+  --color-yellow: var(--yellow);
+  --color-lilac: var(--lilac);
+  --color-blue: var(--blue);
+  --color-grey-block: var(--grey-block);
+
+  /* Marketing tokens. The app writes these as LITERALS (globals.css:213-217);
+     values are identical to the variables in tokens.css. */
+  --color-grey-bg: #e2e2e2;
+  --color-muted-dark: #9a9a9a;
+  --color-muted-light: #555555;
+  --color-label: #6b6b6b;
+  --radius-card: 14px;
+
+  /* Text */
+  --color-ink: var(--ink);
+  --color-body-strong: var(--body-strong);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-muted-soft: var(--muted-soft);
+  --color-on-dark: var(--on-dark);
+
+  /* Surfaces */
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-soft: var(--surface-soft);
+  --color-surface-card: var(--surface-card);
+  --color-surface-strong: var(--surface-strong);
+  --color-input-bg: var(--input-bg);
+
+  /* Lines */
+  --color-hairline: var(--hairline);
+  --color-hairline-soft: var(--hairline-soft);
+
+  /* Semantic + pipeline */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-fast-track: var(--fast-track);
+  --color-fast-track-fg: var(--fast-track-fg);
+  --color-fast-track-soft: var(--fast-track-soft);
+  --color-final-decision: var(--final-decision);
+  --color-final-decision-fg: var(--final-decision-fg);
+  --color-final-decision-soft: var(--final-decision-soft);
+
+  /* Spacing (t-shirt names: see the width-utility warning above) */
+  --spacing-xxs: var(--space-xxs);
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
+  --spacing-xxl: var(--space-xxl);
+  --spacing-section: var(--space-section);
+
+  /* Radius */
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-pill: var(--radius-pill);
+
+  /* Elevation (flat: none, or a hairline ring) */
+  --shadow-card: var(--shadow-card);
+  --shadow-raised: var(--shadow-raised);
+  --shadow-pop: var(--shadow-pop);
+  --shadow-primary: var(--shadow-primary);
+
+  /* Type families */
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+
+  /* Breakpoints (Tailwind defaults, restated) */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+/* ----------------------------------------------------------------------------
+   LANDING (canonical) utilities. NEW NAMES introduced by this handover.
+   The app itself writes these as arbitrary values (bg-[#fbfbf9],
+   text-[#4f46e5], rounded-[28px], shadow-[...]). Each comment gives the exact
+   arbitrary class it replaces, so migrated code renders identically.
+   ---------------------------------------------------------------------------- */
+@theme inline {
+  --color-ground: var(--ground);                 /* bg-[#fbfbf9] */
+  --color-surface-stage: var(--surface-stage);   /* bg-[#f6f6f3] */
+  --color-ink-raised: var(--ink-raised);         /* bg-[#0b0b0c] */
+  --color-indigo: var(--indigo);                 /* text-[#4f46e5], bg-[#4f46e5] */
+  --color-proof: var(--text-proof);              /* text-[#3d3d3d] */
+  --color-lead: var(--text-lead);                /* text-[#4a4a4a] */
+  --color-secondary: var(--text-secondary);      /* text-[#555] */
+  --color-quiet: var(--text-quiet);              /* text-[#666] */
+  --color-meta: var(--text-meta);                /* text-[#777] */
+  --color-overline: var(--text-overline);        /* text-[#888] */
+  --color-faint: var(--text-faint);              /* text-[#999] */
+  --color-line: var(--line);                     /* border-black/[0.08] */
+  --color-line-soft: var(--line-soft);           /* border-black/[0.07] */
+  --color-line-strong: var(--line-strong);       /* border-black/10 */
+  --color-live: var(--live);                     /* bg-[#3fb950] */
+
+  --radius-tile: var(--radius-tile);             /* rounded-[11px] */
+  --radius-doc: var(--radius-doc);               /* rounded-[14px] */
+  --radius-stage: var(--radius-stage);           /* rounded-[18px] */
+  --radius-popover: var(--radius-popover);       /* rounded-[22px] */
+  --radius-card-mobile: var(--radius-card-mobile); /* rounded-[24px] */
+  --radius-feature: var(--radius-feature);       /* rounded-[26px] */
+  --radius-panel: var(--radius-panel);           /* rounded-[28px] */
+  --radius-closing: var(--radius-closing);       /* rounded-[32px] */
+  --radius-phone: var(--radius-phone);           /* rounded-[44px] */
+  --radius-phone-screen: var(--radius-phone-screen); /* rounded-[36px] */
+
+  --shadow-float: var(--elev-float);
+  --shadow-notice: var(--elev-notice);
+  --shadow-search: var(--elev-search);
+  --shadow-search-focus: var(--elev-search-focus);
+  --shadow-dropdown: var(--elev-dropdown);
+  --shadow-feature: var(--elev-feature);
+  --shadow-phone: var(--elev-phone);
+}
+
+/* ----------------------------------------------------------------------------
+   LEGACY marketing type roles and system utilities. The landing does not use
+   the .t-* roles (it uses the --lp-* values); archetype sections, jobs, legal
+   and the candidate space still do.
+   In the app these are PLAIN CSS classes in src/app/(marketing)/marketing-eb.css
+   (lines 49-63, 66-89), not Tailwind utilities. Reproduced here as plain
+   classes so class names match exactly. Values come from tokens.css.
+   ---------------------------------------------------------------------------- */
+.t-wordmark  { font-weight: var(--t-wordmark-weight);  font-size: var(--t-wordmark-size);  line-height: var(--t-wordmark-leading);  letter-spacing: var(--t-wordmark-tracking); white-space: nowrap; }
+.t-hero      { font-weight: var(--t-hero-weight);      font-size: var(--t-hero-size);      line-height: var(--t-hero-leading);      letter-spacing: var(--t-hero-tracking); }
+.t-display   { font-weight: var(--t-display-weight);   font-size: var(--t-display-size);   line-height: var(--t-display-leading);   letter-spacing: var(--t-display-tracking); }
+.t-title     { font-weight: var(--t-title-weight);     font-size: var(--t-title-size);     line-height: var(--t-title-leading);     letter-spacing: var(--t-title-tracking); }
+.t-section   { font-weight: var(--t-section-weight);   font-size: var(--t-section-size);   line-height: var(--t-section-leading);   letter-spacing: var(--t-section-tracking); }
+.t-bar       { font-weight: var(--t-bar-weight);       font-size: var(--t-bar-size);       line-height: var(--t-bar-leading);       letter-spacing: var(--t-bar-tracking); }
+.t-lead      { font-weight: var(--t-lead-weight);      font-size: var(--t-lead-size);      line-height: var(--t-lead-leading);      letter-spacing: var(--t-lead-tracking); }
+.t-chip      { font-weight: var(--t-chip-weight);      font-size: var(--t-chip-size);      line-height: var(--t-chip-leading);      letter-spacing: var(--t-chip-tracking); white-space: nowrap; }
+.t-cardtitle { font-weight: var(--t-cardtitle-weight); font-size: var(--t-cardtitle-size); line-height: var(--t-cardtitle-leading); letter-spacing: var(--t-cardtitle-tracking); }
+.t-name      { font-weight: var(--t-name-weight);      font-size: var(--t-name-size);      line-height: var(--t-name-leading);      letter-spacing: var(--t-name-tracking); }
+.t-body      { font-weight: var(--t-body-weight);      font-size: var(--t-body-size);      line-height: var(--t-body-leading);      letter-spacing: var(--t-body-tracking); }
+.t-caption   { font-weight: var(--t-caption-weight);   font-size: var(--t-caption-size);   line-height: var(--t-caption-leading);   letter-spacing: var(--t-caption-tracking); }
+.t-micro     { font-weight: var(--t-micro-weight);     font-size: var(--t-micro-size);     line-height: var(--t-micro-leading);     letter-spacing: var(--t-micro-tracking); }
+.t-eyebrow   { font-weight: var(--t-eyebrow-weight);   font-size: var(--t-eyebrow-size);   line-height: var(--t-eyebrow-leading);   letter-spacing: var(--t-eyebrow-tracking); text-transform: uppercase; }
+.lead-in     { font-weight: 700; }
+
+.bleed-left { margin-left: calc(var(--margin) * -1); }
+.below-fold { content-visibility: auto; contain-intrinsic-size: auto 600px; }

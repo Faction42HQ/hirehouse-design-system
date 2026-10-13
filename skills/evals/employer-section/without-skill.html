@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HireHouse for Employers</title>
+<style>
+  :root {
+    --paper: #F4F1EA;
+    --ink: #111111;
+    --muted: #5A5650;
+    --rule: #111111;
+    --accent: #E4572E;
+    --accent-ink: #FFFFFF;
+    --tint: #EAE4D6;
+    --serif: "Times New Roman", Georgia, "Iowan Old Style", serif;
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+
+  .employers { max-width: 1200px; margin: 0 auto; padding: 96px 32px; border-top: 3px solid var(--rule); }
+
+  .head { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; align-items: end; padding-bottom: 40px; border-bottom: 1px solid var(--rule); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; display: inline-flex; gap: 10px; align-items: center; }
+  .eyebrow::before { content: ""; width: 10px; height: 10px; background: var(--accent); display: inline-block; }
+  .index { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 16px; letter-spacing: .08em; }
+  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 7vw, 96px); line-height: .95; letter-spacing: -.02em; }
+  h2 em { font-style: italic; color: var(--accent); }
+  .lede { grid-column: 2; font-size: 19px; line-height: 1.5; max-width: 56ch; color: var(--ink); }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--rule); }
+  .feature { padding: 36px 28px 40px 0; }
+  .feature + .feature { padding-left: 28px; border-left: 1px solid var(--rule); }
+  .feature .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .1em; }
+  .feature h3 { font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.1; margin: 14px 0 12px; }
+  .feature p { font-size: 16px; line-height: 1.55; color: var(--muted); }
+
+  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 56px; border: 2px solid var(--rule); }
+  .plan { padding: 32px 28px; display: flex; flex-direction: column; gap: 18px; background: var(--paper); }
+  .plan + .plan { border-left: 2px solid var(--rule); }
+  .plan.featured { background: var(--ink); color: var(--paper); }
+  .plan .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+  .plan.featured .tag { color: var(--accent); }
+  .plan h4 { font-family: var(--serif); font-weight: 400; font-size: 34px; }
+  .price { font-family: var(--serif); font-size: 52px; line-height: 1; }
+  .price small { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; display: block; margin-top: 8px; opacity: .75; }
+  .plan ul { list-style: none; border-top: 1px solid currentColor; }
+  .plan li { padding: 10px 0; border-bottom: 1px solid currentColor; font-size: 15px; line-height: 1.4; display: flex; gap: 10px; }
+  .plan li::before { content: "\2192"; font-family: var(--mono); }
+
+  .cta-row { display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap; margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .cta-row p { font-family: var(--serif); font-size: 26px; line-height: 1.2; max-width: 30ch; }
+  .cta { font-family: var(--mono); font-size: 14px; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: var(--accent-ink); background: var(--accent); border: 2px solid var(--ink); padding: 20px 28px; box-shadow: 6px 6px 0 var(--ink); transition: transform .12s ease, box-shadow .12s ease; display: inline-block; }
+  .cta:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--ink); }
+  .cta:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--ink); }
+  .cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+  .fine { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; margin-top: 16px; }
+
+  @media (max-width: 860px) {
+    .employers { padding: 64px 16px; }
+    .head { grid-template-columns: 1fr; gap: 24px; }
+    .lede { grid-column: 1; }
+    .features, .pricing { grid-template-columns: 1fr; }
+    .feature, .feature + .feature { padding: 28px 0; border-left: 0; }
+    .feature + .feature { border-top: 1px solid var(--rule); }
+    .plan + .plan { border-left: 0; border-top: 2px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+<section class="employers" aria-labelledby="emp-title">
+  <div class="head">
+    <div>
+      <span class="eyebrow">For Employers</span>
+      <div class="index">&sect; 04 &mdash; UAE / India</div>
+    </div>
+    <h2 id="emp-title">Hire the people <em>worth</em> hiring.</h2>
+    <p class="lede">Post a role once and reach candidates across the UAE and India. HireHouse puts a shortlist in front of you, not a pile of CVs, so your team spends time on interviews instead of inboxes.</p>
+  </div>
+
+  <div class="features">
+    <article class="feature">
+      <span class="num">01 / Post</span>
+      <h3>One listing, two markets.</h3>
+      <p>Publish to Dubai, Abu Dhabi, Bengaluru, Mumbai and beyond from a single form. Set salary in AED or INR.</p>
+    </article>
+    <article class="feature">
+      <span class="num">02 / Screen</span>
+      <h3>Shortlists, not stacks.</h3>
+      <p>Applicants are ranked against your must-haves so the strongest profiles surface first. You stay in control of every decision.</p>
+    </article>
+    <article class="feature">
+      <span class="num">03 / Hire</span>
+      <h3>One pipeline for the team.</h3>
+      <p>Move candidates through stages, leave notes, and schedule interviews without leaving HireHouse.</p>
+    </article>
+  </div>
+
+  <div class="pricing" role="list">
+    <div class="plan" role="listitem">
+      <span class="tag">Starter</span>
+      <h4>Single role</h4>
+      <div class="price">Free<small>First job post</small></div>
+      <ul>
+        <li>1 active listing for 30 days</li>
+        <li>Ranked applicant list</li>
+        <li>Email support</li>
+      </ul>
+    </div>
+    <div class="plan featured" role="listitem">
+      <span class="tag">Most popular</span>
+      <h4>Growth</h4>
+      <div class="price">AED 499<small>/ month &middot; or &#8377;9,999 in India</small></div>
+      <ul>
+        <li>Up to 10 active listings</li>
+        <li>Shared team pipeline</li>
+        <li>Featured placement in search</li>
+      </ul>
+    </div>
+    <div class="plan" role="listitem">
+      <span class="tag">Enterprise</span>
+      <h4>Volume hiring</h4>
+      <div class="price">Custom<small>Annual agreement</small></div>
+      <ul>
+        <li>Unlimited listings</li>
+        <li>Dedicated account manager</li>
+        <li>ATS integration</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <div>
+      <p>Your first job post is on us. See who applies.</p>
+      <p class="fine">Prices exclude VAT / GST. Cancel anytime.</p>
+    </div>
+    <a class="cta" href="#post-a-job">Post a job free &rarr;</a>
+  </div>
+</section>
+</body>
+</html>

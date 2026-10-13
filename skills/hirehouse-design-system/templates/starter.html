@@ -1,0 +1,157 @@
+<!doctype html>
+<!--
+  HireHouse starter page: the landing-page register (canonical) in plain HTML + CSS.
+  Use for anything built OUTSIDE the Next.js app (prototypes, microsites, campaign pages, emails-as-web).
+  Inside the app, compose from src/components/marketing/home/* instead (see references/02-components.md).
+
+  Copy ../assets/web/hirehouse-wordmark.svg next to this file (or fix the <img> path).
+  Every value below comes from tokens/tokens.css; do not add new hex values.
+-->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HireHouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Grounds and ink */
+    --ground: #fbfbf9; --white: #fff; --surface-stage: #f6f6f3; --ink-raised: #0b0b0c; --black: #000;
+    /* Brand fills and signal */
+    --lime: #e9fea3; --indigo: #4f46e5; --blue: #4c49f3; --lilac: #cb9fd2; --yellow: #fbfd78;
+    /* Text ladder (never use #888 / #999 for text a user must read) */
+    --text-lead: #4a4a4a; --text-secondary: #555; --text-meta: #777;
+    /* Lines */
+    --line: rgba(0,0,0,.08); --line-soft: rgba(0,0,0,.07); --line-strong: rgba(0,0,0,.10);
+    /* Layout */
+    --margin: clamp(20px, 5vw, 63px);
+    /* Route accent: candidate = lime (employer: --blue + white ink, institution: --lilac, partner: --yellow) */
+    --accent: var(--lime); --accent-ink: #000;
+    /* Motion */
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    /* Elevation: only objects float */
+    --elev-search: 0 24px 60px -30px rgba(0,0,0,.35);
+    --elev-feature: 0 40px 80px -40px rgba(0,0,0,.6);
+    --mesh-closing:
+      radial-gradient(55% 75% at 0% 0%, rgba(233,254,163,.6), transparent 62%),
+      radial-gradient(50% 70% at 100% 0%, rgba(203,159,210,.75), transparent 60%),
+      radial-gradient(55% 70% at 100% 100%, rgba(251,253,120,.38), transparent 62%),
+      radial-gradient(45% 60% at 0% 100%, rgba(189,234,255,.35), transparent 60%),
+      linear-gradient(135deg, #2c27c8, #4c49f3 55%, #6a3fd8);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--ground); color: #000; font-family: Manrope, Inter, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 400; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid #000; outline-offset: 3px; box-shadow: 0 0 0 6px var(--accent); }
+  a { color: inherit; }
+
+  /* Header: white/90, hairline, logo left, pills right */
+  .hdr { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line-strong); }
+  .hdr-in { max-width: 1440px; margin: 0 auto; height: 64px; padding: 0 var(--margin); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .hdr img { height: 26px; display: block; }
+
+  /* Pills: every action is rounded-full */
+  .pill { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 24px; border-radius: 999px; font: 600 15px/1 Manrope, sans-serif; text-decoration: none; transition: transform .2s var(--ease), background-color .12s; }
+  .pill-black { background: #000; color: #fff; }
+  .pill-black:hover { transform: translateY(-2px); }
+  .pill-out { height: 42px; padding: 0 20px; border: 1px solid #000; color: #000; background: transparent; font-weight: 500; }
+  .pill-out:hover { background: #000; color: #fff; }
+  .pill .arrow { transition: transform .2s var(--ease); }
+  .pill:hover .arrow { transform: translateX(2px); }
+
+  /* Hero: centred column over the sanctioned backdrop */
+  .hero { position: relative; isolation: isolate; text-align: center; padding: 120px var(--margin) 112px; }
+  .backdrop { position: absolute; inset: -64px 0 auto; height: max(980px, 100svh + 160px); z-index: -1; pointer-events: none; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent); mask-image: linear-gradient(to bottom, #000 70%, transparent); }
+  .backdrop::before { content: ""; position: absolute; inset: 0; background: radial-gradient(rgba(0,0,0,.18) 1px, transparent 1px) 0 0 / 22px 22px; opacity: .3; }
+  .glow { position: absolute; border-radius: 999px; filter: blur(120px); }
+  .g-lime { background: var(--lime); opacity: .7; width: 620px; height: 620px; left: -160px; top: -192px; }
+  .g-lilac { background: var(--lilac); opacity: .55; width: 540px; height: 540px; right: -128px; top: -128px; }
+  .g-indigo { background: var(--indigo); opacity: .16; width: 760px; height: 460px; left: 50%; top: 48%; transform: translateX(-50%); filter: blur(130px); }
+  .live { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: rgba(255,255,255,.8); border-radius: 999px; padding: 4px 12px 4px 10px; font-size: 12.5px; font-weight: 500; color: var(--text-secondary); text-decoration: none; }
+  .live i { width: 8px; height: 8px; border-radius: 50%; background: #3fb950; }
+  h1 { margin: 28px auto 0; max-width: 16ch; font-size: clamp(32px, 9.2vw, 56px); font-weight: 600; line-height: .98; letter-spacing: -.055em; }
+  @media (min-width: 768px) { h1 { font-size: clamp(56px, 6.2vw, 90px); } }
+  /* The marker: 1 to 2 words per headline, route accent colour, behind the text */
+  mark { background: linear-gradient(transparent 58%, var(--accent) 58%, var(--accent) 92%, transparent 92%); color: inherit; padding: 0 .04em; }
+  .sub { margin: 28px auto 0; max-width: 52ch; font-size: 17px; line-height: 1.65; color: var(--text-lead); }
+  .ticks { margin: 28px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; font-size: 14px; font-weight: 500; color: #3d3d3d; }
+  .ticks li::before { content: "✓"; display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 8px; border-radius: 50%; background: var(--lime); font-size: 11px; font-weight: 700; color: #000; }
+  .cta-row { margin-top: 40px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+  /* Section rhythm */
+  .section { max-width: 1200px; margin: 0 auto; padding: 96px var(--margin); }
+  @media (min-width: 768px) { .section { padding: 128px var(--margin); } }
+  .head { max-width: 860px; margin: 0 auto; text-align: center; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--indigo); }
+  h2 { margin: 16px 0 0; text-wrap: balance; font-size: clamp(30px, 4.4vw, 56px); font-weight: 600; line-height: 1.04; letter-spacing: -.045em; }
+
+  /* Hairline card grid: structure is flat (no shadow) */
+  .grid { margin-top: 56px; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; }
+  @media (min-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .card { background: #fff; padding: 28px; text-align: left; }
+  .chip { display: inline-block; border-radius: 999px; background: var(--lime); padding: 4px 10px; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  h3 { margin: 18px 0 0; font-size: 22px; font-weight: 600; line-height: 1.2; letter-spacing: -.025em; }
+  .card p { margin: 10px 0 0; font-size: 15.5px; line-height: 1.65; color: var(--text-secondary); }
+
+  /* Closing card: the one sanctioned mesh per page */
+  .closing { max-width: 1200px; margin: 0 auto 96px; padding: 0 var(--margin); }
+  .closing-card { border-radius: 32px; background: var(--mesh-closing); color: #fff; text-align: center; padding: clamp(56px, 8vw, 96px) 24px; }
+  .closing-card h2 { font-size: clamp(34px, 5.4vw, 72px); line-height: .98; letter-spacing: -.05em; }
+  .closing-card p { margin: 18px 0 32px; color: rgba(255,255,255,.8); font-size: 17px; }
+  .closing-card .pill-black { background: #fff; color: #000; }
+
+  /* Motion: rise once; reduced motion shows the end state */
+  .rise { animation: rise .9s var(--ease) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .rise { animation: none; } html { scroll-behavior: auto; } .pill, .pill .arrow { transition: none; } }
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="/" aria-label="HireHouse home"><img src="hirehouse-wordmark.svg" alt="HireHouse"></a>
+    <a class="pill pill-out" href="/jobs">Browse jobs</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="backdrop" aria-hidden="true"><span class="glow g-lime"></span><span class="glow g-lilac"></span><span class="glow g-indigo"></span></div>
+    <a class="live rise" href="/jobs"><i aria-hidden="true"></i>Now hiring across the UAE and India</a>
+    <h1 id="hero-title" class="rise" style="animation-delay:.08s">The job board that always <mark>writes back</mark>.</h1>
+    <p class="sub rise" style="animation-delay:.16s">Find roles across the UAE and India and apply free in two minutes. Every application is weighed on merit, not keywords, and whatever the outcome, you'll hear back.</p>
+    <ul class="ticks rise" style="animation-delay:.24s">
+      <li>Free to apply, always</li><li>Judged on merit, not keywords</li><li>An answer on every application</li>
+    </ul>
+    <div class="cta-row rise" style="animation-delay:.32s">
+      <a class="pill pill-black" href="/jobs">Find a role <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="why-title">
+    <div class="head">
+      <div class="eyebrow">Why HireHouse</div>
+      <h2 id="why-title">Every job board helps you apply. We fix <mark>what happens next</mark>.</h2>
+      <p class="sub">Most applications vanish into a filter or an inbox. On HireHouse, each one is weighed properly and answered.</p>
+    </div>
+    <div class="grid">
+      <article class="card"><span class="chip">01</span><h3>No keyword roulette.</h3><p>Your whole application is weighed against what the role needs.</p></article>
+      <article class="card"><span class="chip">02</span><h3>One bar for everyone.</h3><p>Everyone who applies for a role is scored on the same criteria. Paying never changes your score.</p></article>
+      <article class="card"><span class="chip">03</span><h3>You always hear back.</h3><p>You're either through to the next stage or you get a clear decision. Never silence.</p></article>
+    </div>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <div class="closing-card">
+      <h2 id="closing-title">Your next application deserves an answer.</h2>
+      <p>Search open roles and apply free in two minutes.</p>
+      <a class="pill pill-black" href="/jobs">Find a role <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

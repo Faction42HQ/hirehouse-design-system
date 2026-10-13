@@ -1,0 +1,472 @@
+/* ============================================================================
+   HireHouse design tokens: "Editorial Brutalist" (web)
+   Portable CSS custom properties. No framework required.
+
+   SOURCE OF TRUTH (product owner ruling, 2026-10-13): the candidate landing
+   page (src/app/(marketing)/page.tsx, src/components/marketing/home/*,
+   marketing-eb.css, as rendered) IS the design system. Section 0 holds its
+   values. Where the deck spec, older marketing archetypes (.t-* roles) or the
+   product token layer disagree, they are LEGACY and kept only so existing
+   screens keep rendering.
+
+   Extracted from the HireHouse app (Next.js 16, Tailwind v4):
+     - src/components/marketing/home/*      (landing: canonical, section 0)
+     - src/components/marketing/eb/nav/*    (header + footer rendered on the landing)
+     - src/app/globals.css                  (product token layer, lines 14-167)
+     - src/app/(marketing)/marketing-eb.css (marketing layer, lines 18-62)
+     - src/app/globals.css @theme inline    (literal marketing tokens, lines 213-217)
+     - src/app/layout.tsx                   (Manrope weights loaded)
+   The landing writes most values as Tailwind arbitrary values; the names in
+   section 0 are introduced by this handover so they can be reused.
+
+   THEMING: the product is LIGHT ONLY. The dark theme was removed
+   (globals.css:169, src/lib/theme/ThemeProvider.tsx:21-27). "Dark" in this
+   system means a dark GROUND (a black or blue band) inside a light page; the
+   --on-dark* tokens below serve those grounds. There is no
+   [data-theme="dark"] value set to ship.
+
+   Usage outside the app:
+     1. Load Manrope (weights 200-800), e.g. Google Fonts, and either set
+        --font-manrope to its family name or leave the fallback below.
+     2. @import "tokens.css";
+     3. Wrap marketing pages in <div class="eb-marketing" data-accent="...">.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ==========================================================================
+     0. LANDING PAGE (canonical). Values as rendered at / (candidate home).
+     ========================================================================== */
+
+  /* 0.1 Grounds and surfaces */
+  --ground: #fbfbf9;                 /* page ground on every marketing route (page.tsx:44, Footer.tsx:44) */
+  --surface-stage: #f6f6f3;          /* inset "stage" panel holding an illustration or CV (HomeWhy.tsx:43, SameCv.tsx:106) */
+  --ink-raised: #0b0b0c;             /* raised black: Fast Track column, phone bezel, footer black panel */
+
+  /* 0.2 Signal colours */
+  --indigo: #4f46e5;                 /* signal: eyebrows, step numbers, score bars, caret, unread dot */
+  --indigo-halo: rgba(79, 70, 229, 0.12);   /* 5px focus halo round the hero search */
+  /* Brand fills (lime, blue, lilac, yellow) are in section 1. */
+  --lime-wash: rgba(233, 254, 163, 0.45);   /* bg-lime/45: "read in full" wash on a document */
+  --lime-wash-soft: rgba(233, 254, 163, 0.30); /* bg-lime/30: highlighted inbox row */
+
+  /* 0.3 Text ladder (on --ground or white) */
+  --text-strong: #000000;            /* headlines, labels, input text */
+  --text-proof: #3d3d3d;             /* hero proof row */
+  --text-lead: #4a4a4a;              /* hero sub, section sub, FAQ answers */
+  --text-secondary: #555555;         /* card body, captions, step subs */
+  --text-quiet: #666666;             /* replay button, empty states */
+  --text-meta: #777777;              /* company / place, column labels. 4.32:1 on --ground: passes AA only as large text (24px+, or 18.66px+ bold); the landing's 12.5 to 13px uses fail (see docs/05, A11Y) */
+  --text-overline: #888888;          /* tiny overlines inside illustrations only (decorative, aria-hidden) */
+  --text-faint: #999999;             /* placeholders, timestamps. Fails AA: never for essential text */
+  --text-footer-on-lime: rgba(0, 0, 0, 0.65);
+
+  /* 0.4 Lines */
+  --line: rgba(0, 0, 0, 0.08);       /* card grid gaps, table rows, FAQ dividers, mobile card border */
+  --line-soft: rgba(0, 0, 0, 0.07);  /* stage border, dropdown border, mobile list rows */
+  --line-strong: rgba(0, 0, 0, 0.10);/* header rule, idle search border, round icon buttons */
+  --line-on-dark: rgba(255, 255, 255, 0.10);  /* rows inside the raised black card */
+  --line-pill-on-dark: rgba(255, 255, 255, 0.28); /* social pill border on the footer black panel */
+
+  /* 0.5 Illustration and status colours (landing micro-scenes) */
+  --live: #3fb950;                   /* live-role pulse dot */
+  --reject-bg: #fee4e2;
+  --reject-fg: #b42318;
+  --reject-icon: #d92d20;
+  --reject-scan: #e5484d;            /* scanner line + glow rgba(229,72,77,.45) */
+  --keyword-bg: #e0e7ff;             /* keyword chip "hit" */
+  --keyword-fg: #4338ca;
+  --tint-1: #e9fea3;                 /* company initial tiles in search results, cycled */
+  --tint-2: #d9d2ff;
+  --tint-3: #cfeeff;
+  --tint-4: #ffe2cc;
+  --tint-5: #e4f7d8;
+  --logo-ink: #1f2430;        /* logo artwork only (wordmark letters); never a UI colour */
+  --text-row: #444444;        /* comparison-row labels (HomeRoutes), mobile rows */
+  --avatar-from: #c9c3ff; --avatar-to: #ffd9c2;   /* placeholder avatar on the CV illustration (135deg) */
+  --mode-remote-bg: #e8f7e4;  --mode-remote-fg: #2f7a1f;   /* work-mode chips (jobs/modeIcons.ts:12-16) */
+  --mode-hybrid-bg: #fdf3d6;  --mode-hybrid-fg: #8a6410;
+  --mode-onsite-bg: #eef0f6;  --mode-onsite-fg: #4a5170;
+
+  /* 0.6 Sanctioned soft-colour exceptions (exact values; see docs §2.7 for where allowed) */
+  --glow-blur: 120px;                /* indigo glow uses 130px */
+  --glow-lime: #e9fea3;    --glow-lime-opacity: 0.70;   /* 620 x 620, top-left */
+  --glow-lilac: #cb9fd2;   --glow-lilac-opacity: 0.55;  /* 540 x 540, top-right */
+  --glow-indigo: #4f46e5;  --glow-indigo-opacity: 0.16; /* 760 x 460, behind the search, blur 130px */
+  --glow-yellow: #fbfd78;  --glow-yellow-opacity: 0.45; /* 420 x 380, low left */
+  --glow-sky: #bdeaff;     --glow-sky-opacity: 0.50;    /* 380 x 340, low right */
+  --dot-grid: radial-gradient(rgba(0, 0, 0, 0.18) 1px, transparent 1px) 0 0 / 22px 22px; /* layer opacity 0.3 */
+  --highlight-lime: linear-gradient(transparent 58%, #e9fea3 58%, #e9fea3 92%, transparent 92%); /* hard-stop highlighter */
+  --mesh-closing:
+    radial-gradient(55% 75% at 0% 0%, rgba(233, 254, 163, 0.6), transparent 62%),
+    radial-gradient(50% 70% at 100% 0%, rgba(203, 159, 210, 0.75), transparent 60%),
+    radial-gradient(55% 70% at 100% 100%, rgba(251, 253, 120, 0.38), transparent 62%),
+    radial-gradient(45% 60% at 0% 100%, rgba(189, 234, 255, 0.35), transparent 60%),
+    linear-gradient(135deg, #2c27c8, #4c49f3 55%, #6a3fd8);
+
+  /* 0.7 Elevation recipes (landing). Only for objects that float. */
+  --elev-float: 0 18px 40px -24px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.05);   /* documents, mini inbox */
+  --elev-notice: 0 18px 40px -16px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.05);  /* outcome notice on a CV */
+  --elev-search: 0 24px 60px -30px rgba(0, 0, 0, 0.35);                                 /* hero search bar */
+  --elev-search-focus: 0 0 0 5px rgba(79, 70, 229, 0.12), 0 24px 60px -30px rgba(0, 0, 0, 0.35);
+  --elev-dropdown: 0 30px 70px -30px rgba(0, 0, 0, 0.4);
+  --elev-feature: 0 40px 80px -40px rgba(0, 0, 0, 0.6);                                 /* raised black Fast Track column */
+  --elev-phone: 0 50px 90px -40px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* 0.8 Radii (landing) */
+  --radius-chip-sm: 6px;             /* keyword chips (5px inside the CV) */
+  --radius-tile: 11px;               /* company initial tile */
+  --radius-doc: 14px;                /* document cards, notices, result rows */
+  --radius-stage: 18px;              /* illustration stage */
+  --radius-popover: 22px;            /* search dropdown */
+  --radius-card-mobile: 24px;        /* stacked route cards on phones */
+  --radius-feature: 26px;            /* raised black column */
+  --radius-panel: 28px;              /* section containers, story panels, footer panels */
+  --radius-closing: 32px;            /* closing search card */
+  --radius-phone: 44px;              /* phone bezel */
+  --radius-phone-screen: 36px;
+
+  /* 0.9 Layout (landing) */
+  --header-height: 64px;             /* sticky marketing header, h-16 */
+  --section-pad-y: 96px;             /* py-24 */
+  --section-pad-y-md: 128px;         /* md:py-32 */
+  --width-hero: 1440px;
+  --width-section: 1200px;           /* HomeWhy, SameCv, FAQ, closing */
+  --width-section-narrow: 1100px;    /* Free vs Fast Track */
+  --width-intro: 860px;              /* centred section intro (760 to 860 in use) */
+  --width-search: 720px;             /* hero search (closing: 680px) */
+  --gap-intro-content: 56px;         /* mt-14 between a section intro and its content */
+  --button-height: 48px;             /* black pill CTA, search submit (h-12) */
+  --search-height: 64px;             /* hero search field (h-16) */
+
+  /* 0.10 Landing type. Manrope. leading-relaxed = 1.625. */
+  --lp-hero-size: clamp(32px, 9.2vw, 56px);      /* phones */
+  --lp-hero-size-md: clamp(56px, 6.2vw, 90px);   /* >= 768px */
+  --lp-hero-weight: 600;  --lp-hero-leading: 0.98;  --lp-hero-tracking: -0.055em;
+  --lp-section-size: clamp(30px, 4.4vw, 56px);  --lp-section-weight: 600;  --lp-section-leading: 1.04;  --lp-section-tracking: -0.045em;
+  --lp-closing-size: clamp(34px, 5.4vw, 72px);  --lp-closing-weight: 600;  --lp-closing-leading: 0.98;  --lp-closing-tracking: -0.05em;  /* closing card h2, white on --mesh-closing */
+  --lp-step-size: clamp(32px, 4vw, 54px);      --lp-step-weight: 600;     --lp-step-leading: 1.02;     --lp-step-tracking: -0.045em;
+  --lp-step-size-mobile: 26px;                                             /* leading 1.08, tracking -0.035em */
+  --lp-statement-size: clamp(24px, 2.8vw, 34px);--lp-statement-weight: 600;--lp-statement-leading: 1.25; --lp-statement-tracking: -0.035em;
+  --lp-figure-size: clamp(24px, 2.4vw, 30px);   --lp-figure-weight: 600;   --lp-figure-leading: 1;      --lp-figure-tracking: -0.035em;
+  --lp-cardtitle-size: 22px;                    --lp-cardtitle-weight: 600;--lp-cardtitle-leading: 1.25;--lp-cardtitle-tracking: -0.025em;
+  --lp-question-size: 17px;                     --lp-question-weight: 600; --lp-question-tracking: -0.015em;
+  --lp-lead-size: clamp(16.5px, 1.45vw, 19px);  --lp-lead-weight: 400;     --lp-lead-leading: 1.625;
+  --lp-sub-size: 17px;                          --lp-sub-weight: 400;      --lp-sub-leading: 1.625;
+  --lp-body-size: 15.5px;                       --lp-body-weight: 400;     --lp-body-leading: 1.625;
+  --lp-small-size: 15px;
+  --lp-meta-size: 12.5px;
+  --lp-eyebrow-size: 12px;                      --lp-eyebrow-weight: 600;  --lp-eyebrow-tracking: 0.16em;  /* uppercase, --indigo */
+  --lp-tag-size: 12px;                          --lp-tag-weight: 700;      --lp-tag-tracking: 0.08em;      /* uppercase pill */
+  --lp-button-size: 15px;                       --lp-button-weight: 600;
+  --lp-input-size: 17px;                        --lp-input-weight: 500;
+  --lp-footer-display-size: clamp(58px, 9vw, 150px); --lp-footer-display-weight: 600; --lp-footer-display-leading: 0.86; --lp-footer-display-tracking: -0.06em;
+
+  /* 0.11 Landing motion extras */
+  --lift-hover: -2px;                /* CTA hover: hover:-translate-y-0.5 (search submit: -1px) */
+  --duration-control: 300ms;         /* search border / halo, FAQ icon rotate */
+  --typing-char: 40ms;               /* + 0 to 30ms random per character */
+  --typing-hold: 1800ms;
+  --typing-erase: 18ms;
+  --typing-gap: 400ms;
+  --stagger-result: 40ms;            /* search result rows */
+
+  /* --------------------------------------------------------------------------
+     1. Core brand palette (the deck palette, new-design-system.md §2.1).
+        Still canonical as FILLS on the landing (lime, blue footer panel,
+        lilac / yellow glows). Sections 2 to 9 are PRODUCT UI tokens.
+     -------------------------------------------------------------------------- */
+  --black: #000000;
+  --white: #ffffff;
+  --lime: #e9fea3;          /* candidate accent; the system's "primary" block */
+  --yellow: #fbfd78;        /* partner accent */
+  --lilac: #cb9fd2;         /* institution accent; accent block only, never a section ground */
+  --blue: #4c49f3;          /* electric blue; employer accent; THE emphasis colour */
+  --grey-bg: #e2e2e2;       /* neutral section ground */
+  --grey-block: #cfcfcf;    /* "the incumbent" block */
+  --muted-dark: #9a9a9a;    /* secondary text on BLACK only */
+  --muted-light: #555555;   /* secondary text on white / lime / yellow / grey */
+  --label: #6b6b6b;         /* field labels on white */
+
+  /* --------------------------------------------------------------------------
+     2. Primary (product emphasis = electric blue)
+     -------------------------------------------------------------------------- */
+  --primary: #4c49f3;
+  --primary-active: #3b38e6;
+  --primary-disabled: #e2e2e2;
+  --on-primary: #ffffff;
+  --primary-soft: #ecebfe;      /* tinted surface: active nav, selected rows (product only) */
+  --primary-soft-fg: #4c49f3;
+
+  /* --------------------------------------------------------------------------
+     3. "Teal" ramp. Legacy NAME, repurposed as a blue-to-black depth ramp.
+        Kept so older consumers re-theme; do not read "teal" literally.
+     -------------------------------------------------------------------------- */
+  --teal-50: #ecebfe;
+  --teal-100: #dad9fb;
+  --teal-200: #b9b8f9;
+  --teal-300: #908ef4;
+  --teal-400: #6663f0;
+  --teal-500: #4c49f3;
+  --teal-600: #3b38e6;
+  --teal-700: #14141a;
+  --teal-800: #0a0a0d;
+  --teal-900: #000000;
+
+  /* --------------------------------------------------------------------------
+     4. Product accent family (badges, feature fills; white text on top)
+     -------------------------------------------------------------------------- */
+  --teal: #4c49f3;
+  --amber: #8a5a14;
+  --fern: #3f6b3a;
+  --rust: #b23b2b;
+  --slate: #2b2b2b;
+  --plum: #6b4bb0;
+  --on-accent: #ffffff;
+  --on-accent-soft: rgba(255, 255, 255, 0.88);
+
+  /* Lighter accent text for use on a black band. */
+  --rust-on-dark: #e0907a;
+  --amber-on-dark: #dfa963;
+  --fern-on-dark: #a3c78d;
+
+  /* --------------------------------------------------------------------------
+     5. Text
+     -------------------------------------------------------------------------- */
+  --ink: #000000;
+  --body-strong: #111111;
+  --body: #333333;
+  --muted: #555555;
+  --muted-soft: #8a8a8a;        /* fails AA for body text on white (3.45:1); large text / non-essential only */
+  --on-dark: #ffffff;
+  --on-dark-soft: #b3b3b3;
+
+  /* --------------------------------------------------------------------------
+     6. Surfaces (flat neutral ladder)
+     -------------------------------------------------------------------------- */
+  --canvas: #ffffff;
+  --surface: #ffffff;
+  --surface-soft: #ffffff;
+  --surface-card: #f4f4f2;
+  --surface-strong: #e2e2e2;
+  --surface-dark: #000000;
+  --surface-dark-elevated: #0a0a0d;
+  --input-bg: #ffffff;
+
+  --ground-marketing: var(--ground);  /* alias, kept for readability */
+
+  /* --------------------------------------------------------------------------
+     7. Lines
+     -------------------------------------------------------------------------- */
+  --hairline: rgba(0, 0, 0, 0.14);       /* product default border (applied to * in globals.css:285) */
+  --hairline-soft: rgba(0, 0, 0, 0.07);
+  /* LEGACY marketing <Rule> hairlines (archetype sections; landing uses --line*) (src/components/marketing/eb/primitives/Rule.tsx:10-15). */
+  --rule-on-light: rgba(0, 0, 0, 0.25);
+  --rule-on-dark: rgba(255, 255, 255, 0.30);
+  --rule-on-blue: rgba(255, 255, 255, 0.35);
+
+  /* --------------------------------------------------------------------------
+     8. Semantic (deep functional tones; not in the poster palette)
+     -------------------------------------------------------------------------- */
+  --success: #3f6b3a;
+  --warning: #7a5410;
+  --error: #b23b2b;
+  --danger: #b23b2b;
+  --danger-hover: #9a3225;
+  --on-danger: #ffffff;
+
+  /* Status pills: background + text pairs (product UI). */
+  --pill-neutral-bg: #f0f0ee;   --pill-neutral-fg: #555555;
+  --pill-info-bg: #ecebfe;      --pill-info-fg: #4c49f3;
+  --pill-success-bg: #eefbc9;   --pill-success-fg: #3f6b3a;
+  --pill-warning-bg: #fefbd0;   --pill-warning-fg: #7a5410;
+  --pill-error-bg: #fbe3df;     --pill-error-fg: #b23b2b;
+  --pill-ai-bg: #f1e7f4;        --pill-ai-fg: #6b4bb0;
+
+  /* Pipeline states: Fast Track (lime, reserved) and Final Decision (lilac-ink). */
+  --fast-track: #e9fea3;
+  --fast-track-fg: #1c2408;
+  --fast-track-soft: #f3fec8;
+  --final-decision: #6b3fa0;
+  --final-decision-fg: #3d2460;
+  --final-decision-soft: #f6eefe;
+  --pill-fast-track-bg: #e9fea3;
+  --pill-fast-track-fg: #1c2408;
+  --pill-final-decision-bg: #f3e8fb;
+  --pill-final-decision-fg: #6b3fa0;
+
+  /* --------------------------------------------------------------------------
+     9. Aliases (prefer these in new product code)
+     -------------------------------------------------------------------------- */
+  --text-heading: var(--ink);
+  --text-body: var(--body);
+  --text-muted: var(--muted);
+  --surface-page: var(--canvas);
+  --surface-elevated: var(--surface);
+  --border-default: var(--hairline);
+  --focus-ring: var(--primary);
+  --overlay-scrim: rgba(26, 24, 20, 0.46);
+
+  /* --------------------------------------------------------------------------
+     10. Audience accent (marketing). Overridden per [data-accent] below.
+         Root fallback = candidate lime, so .cta-accent is never transparent.
+     -------------------------------------------------------------------------- */
+  --accent: #e9fea3;
+  --accent-ink: #000000;
+
+  /* --------------------------------------------------------------------------
+     11. Spacing (base 4px)
+     -------------------------------------------------------------------------- */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-section: 96px;
+
+  /* --------------------------------------------------------------------------
+     12. Layout
+     -------------------------------------------------------------------------- */
+  --container-max: 1400px;                    /* product shell */
+  --nav-height: 52px;                         /* product nav (marketing header is 64px, h-16) */
+  --control-height: 44px;                     /* inputs, buttons, .cta pills */
+  --margin: clamp(20px, 5vw, 63px);           /* marketing side margin (63 = deck's 63pt margin) */
+  --content: 1160px;                          /* LEGACY marketing content width; container = content + 2 x margin */
+  --band: clamp(64px, 10vh, 120px);           /* LEGACY marketing section padding; landing uses --section-pad-y */
+
+  /* Breakpoints (Tailwind defaults, restated in globals.css:270-273). Custom
+     properties cannot be used inside @media; these are for reference / JS. */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;                     /* the phone / wide-screen split used by the landing spec */
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+
+  /* --------------------------------------------------------------------------
+     13. Radius
+     -------------------------------------------------------------------------- */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 11px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 9999px;
+  --radius-card: 14px;          /* marketing card (rounded-card) */
+  --radius-bar: 0px;            /* LEGACY: archetype bleeding bars are sharp (deck §4) */
+
+  /* --------------------------------------------------------------------------
+     14. Product UI elevation: FLAT; overlays get a hairline ring.
+         (Landing objects use the --elev-* recipes in section 0.7.)
+     -------------------------------------------------------------------------- */
+  --shadow-none: none;
+  --shadow-card: none;
+  --shadow-raised: 0 0 0 0.75px rgba(0, 0, 0, 0.12);
+  --shadow-pop: 0 0 0 0.75px rgba(0, 0, 0, 0.16);
+  --shadow-primary: none;
+  --shadow-primary-hover: none;
+  --shadow-sheen: none;
+
+  /* --------------------------------------------------------------------------
+     15. Typography
+     -------------------------------------------------------------------------- */
+  --font-manrope: "Manrope";    /* the app sets this via next/font; override if self-hosting */
+  --font-display: var(--font-manrope), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: var(--font-manrope), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --font-weight-extralight: 200;  /* LEGACY marketing default register (.eb-marketing); not used for landing copy */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* LEGACY marketing type roles (.t-*), fluid. Used by the archetype sections,
+     jobs, legal and candidate space; NOT by the landing (use --lp-* above).
+     size / weight / line-height / tracking. */
+  --t-wordmark-size: clamp(72px, 14vw, 133px);   --t-wordmark-weight: 700; --t-wordmark-leading: 1;    --t-wordmark-tracking: -0.05em;
+  --t-hero-size: clamp(40px, 7vw, 57px);         --t-hero-weight: 700;     --t-hero-leading: 1;        --t-hero-tracking: -0.07em;
+  --t-display-size: clamp(28px, 4.5vw, 44px);    --t-display-weight: 700;  --t-display-leading: 1;     --t-display-tracking: -0.05em;
+  --t-title-size: clamp(28px, 4.5vw, 44px);      --t-title-weight: 200;    --t-title-leading: 1;       --t-title-tracking: -0.03em;
+  --t-section-size: clamp(24px, 3.2vw, 34px);    --t-section-weight: 200;  --t-section-leading: 1.1;   --t-section-tracking: -0.03em;
+  --t-bar-size: clamp(18px, 2.4vw, 24px);        --t-bar-weight: 200;      --t-bar-leading: 1.07;      --t-bar-tracking: -0.03em;
+  --t-lead-size: clamp(16px, 1.8vw, 18px);       --t-lead-weight: 300;     --t-lead-leading: 1.4;      --t-lead-tracking: -0.03em;
+  --t-chip-size: clamp(15px, 1.4vw, 17.8px);     --t-chip-weight: 300;     --t-chip-leading: 1;        --t-chip-tracking: -0.03em;
+  --t-cardtitle-size: clamp(15px, 1.5vw, 17.8px);--t-cardtitle-weight: 300;--t-cardtitle-leading: 1.15;--t-cardtitle-tracking: -0.03em;
+  --t-name-size: clamp(14px, 1.3vw, 16px);       --t-name-weight: 400;     --t-name-leading: 1.5;      --t-name-tracking: -0.011em;
+  --t-body-size: clamp(15px, 1.2vw, 16px);       --t-body-weight: 300;     --t-body-leading: 1.4;      --t-body-tracking: -0.011em;
+  --t-caption-size: 13px;                        --t-caption-weight: 300;  --t-caption-leading: 1.5;   --t-caption-tracking: -0.011em;
+  --t-micro-size: 12px;                          --t-micro-weight: 400;    --t-micro-leading: 1.38;    --t-micro-tracking: -0.005em;
+  --t-eyebrow-size: 12px;                        --t-eyebrow-weight: 400;  --t-eyebrow-leading: 1.2;   --t-eyebrow-tracking: 0.05em;  /* uppercase */
+
+  /* Product type helpers (globals.css:352-365), fixed px. */
+  --display-xl-size: 72px;  --display-xl-weight: 300; --display-xl-leading: 1;    --display-xl-tracking: -3px;
+  --display-lg-size: 56px;  --display-lg-weight: 300; --display-lg-leading: 1.02; --display-lg-tracking: -2px;
+  --display-md-size: 40px;  --display-md-weight: 300; --display-md-leading: 1.08; --display-md-tracking: -1.4px;
+  --display-sm-size: 32px;  --display-sm-weight: 400; --display-sm-leading: 1.12; --display-sm-tracking: -1px;
+  --title-lg-size: 24px;    --title-lg-weight: 500;   --title-lg-leading: 1.3;    --title-lg-tracking: -0.6px;
+  --title-md-size: 18px;    --title-md-weight: 600;   --title-md-leading: 1.4;    --title-md-tracking: -0.3px;
+  --title-sm-size: 16px;    --title-sm-weight: 600;   --title-sm-leading: 1.4;    --title-sm-tracking: -0.2px;
+  --body-md-size: 16px;     --body-md-weight: 400;    --body-md-leading: 1.55;
+  --body-sm-size: 14px;     --body-sm-weight: 400;    --body-sm-leading: 1.55;
+  --caption-size: 13px;     --caption-weight: 500;    --caption-leading: 1.4;
+  --caption-upper-size: 12px; --caption-upper-weight: 600; --caption-upper-leading: 1.4; --caption-upper-tracking: 1.5px;
+
+  /* --------------------------------------------------------------------------
+     16. Motion (collected from marketing-eb.css keyframes and transitions)
+     -------------------------------------------------------------------------- */
+  --ease-out-editorial: cubic-bezier(0.2, 0.7, 0.2, 1);   /* the house curve: rises, reveals, dropdowns, FAQ */
+  --ease-glide: cubic-bezier(0.2, 0.8, 0.2, 1);           /* slide-ins (ftm-role, ftm-line) */
+  --ease-draw: cubic-bezier(0.6, 0, 0.2, 1);              /* hand-drawn mark on load (hh-sketch-now) */
+  --ease-sweep: cubic-bezier(0.45, 0, 0.55, 1);           /* scanner / wash sweeps (hh-cv-*) */
+  --ease-loop: cubic-bezier(0.45, 0.05, 0.25, 1);         /* looping rings (ftm-ring) */
+  --ease-clock: cubic-bezier(0.4, 0, 0.2, 1);             /* one-shot clock sweep (hh-cmp-clock) */
+  --ease-pop: cubic-bezier(0.3, 1.4, 0.5, 1);             /* overshoot: notices, toasts, seal */
+  --ease-pop-strong: cubic-bezier(0.3, 1.6, 0.5, 1);      /* stronger overshoot: ticks, avatars */
+
+  --duration-instant: 120ms;    /* .cta colour swaps */
+  --duration-fast: 200ms;       /* list dimming, suggestion rise */
+  --duration-dropdown: 280ms;   /* hh-dropdown */
+  --duration-result: 350ms;     /* hh-result */
+  --duration-list: 380ms;       /* board-rise */
+  --duration-disclose: 450ms;   /* FAQ open / close */
+  --duration-rise: 900ms;       /* hh-rise, hh-sketch-now */
+  --duration-ambient: 22s;      /* hh-glow backdrop drift */
+  --stagger-list: 30ms;         /* board-list rows */
+  --stagger-row: 70ms;          /* comparison table rows */
+  --stagger-hero: 80ms;         /* hero hh-rise children (.08s, .16s, .24s) */
+}
+
+/* ----------------------------------------------------------------------------
+   Audience accent system (marketing-eb.css:32-43)
+   Put data-accent on a page's root wrapper. Only blue takes white ink.
+   ---------------------------------------------------------------------------- */
+.eb-marketing {
+  --accent: #e9fea3;          /* candidate default */
+  --accent-ink: #000000;
+  font-weight: 200;           /* LEGACY ExtraLight register, kept to match the app; landing text must set its own weight */
+}
+[data-accent="candidate"]   { --accent: #e9fea3; --accent-ink: #000000; }
+[data-accent="employer"]    { --accent: #4c49f3; --accent-ink: #ffffff; }
+[data-accent="institution"] { --accent: #cb9fd2; --accent-ink: #000000; }
+[data-accent="partner"]     { --accent: #fbfd78; --accent-ink: #000000; }
+
+.eb-marketing ::selection { background: var(--accent); color: var(--accent-ink); }
+.eb-marketing :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Reduced motion: the app gates each animation individually; this is the
+   portable equivalent for anything built on these tokens. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-control: 0ms;
+    --duration-fast: 0ms;
+    --duration-dropdown: 0ms;
+    --duration-result: 0ms;
+    --duration-list: 0ms;
+    --duration-disclose: 0ms;
+    --duration-rise: 0ms;
+  }
+}
